@@ -5,24 +5,46 @@
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js",
+    "test": "node --test \"backend/test/**/*.test.js\"",
+    "audit": "npm audit --omit=dev",
+    "build:css": "node scripts/build-tailwind.js",
     "db:migrate": "prisma migrate dev",
     "db:seed": "node prisma/seed.js",
     "prisma:generate": "prisma generate",
     "postinstall": "prisma generate"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/workspace220106/Awaken-IQ.git"
+  },
   "dependencies": {
     "@prisma/client": "^5.22.0",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.4",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
+    "firebase-admin": "^14.2.0",
+    "googleapis": "^173.0.0",
+    "helmet": "^8.3.0",
     "multer": "^2.1.1",
+    "nodemailer": "^10.0.8",
     "pg": "^8.13.1",
     "razorpay": "^2.9.6",
     "xlsx": "^0.18.5"
   },
+  "engines": {
+    "node": ">=20"
+  },
+  "private": true,
   "devDependencies": {
-    "prisma": "^5.22.0"
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.11",
+    "prisma": "^5.22.0",
+    "tailwindcss": "^3.4.19"
   }
 }
