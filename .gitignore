@@ -1,9 +1,22 @@
 node_modules/
+.vercel
+.env
+.env.local
+.env.*
+!.env.example
+
+# Credentials — never commit
+*firebase-adminsdk*.json
+firebaseServiceAccount.json
+firebase-config.json
+frontend/firebase-init.js
+
+# Build & uploads
 frontend/uploads/
+backend/dist/
+frontend/.next/
 dummy.mp4
 Attendance Report 2.pdf
 logo (1).png
-.env
-.env.local
-backend/dist/
-frontend/.next/
+scratch/
+scraped_site/
