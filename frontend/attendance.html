@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Session Attendance - Awaken IQ</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="assets/js/admin-auth.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Caudex:wght@400;700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script id="tailwind-config">
         tailwind.config = {
@@ -48,7 +49,7 @@
     <header class="fixed top-0 w-full z-50 bg-white/20 backdrop-blur-md border-b border-white/20 shadow-sm">
         <nav class="flex justify-between items-center px-4 md:px-8 py-4 max-w-7xl mx-auto w-full">
             <div class="flex items-center gap-3">
-                <a href="dashboard.html" class="p-2 hover:bg-black/5 rounded-full transition-colors flex items-center justify-center shrink-0" title="Back to Dashboard">
+                <a href="management-dashboard.html" class="p-2 hover:bg-black/5 rounded-full transition-colors flex items-center justify-center shrink-0" title="Back to Operations Control">
                     <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path>
                     </svg>
@@ -56,12 +57,12 @@
                 <span class="font-bold text-2xl text-primary tracking-tight" style="font-family: 'Caudex', serif;">Session Attendance</span>
             </div>
             <div class="flex items-center gap-4">
-                <button class="p-2 hover:bg-black/5 rounded-full transition-colors flex items-center justify-center text-primary" title="Filter options">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h18M6.75 9h10.5M11.25 13.5h1.5"></path>
-                    </svg>
+                <img src="assets/logo.png" alt="Awaken IQ Logo" class="h-10 w-auto">
+                <button id="logout-btn" class="bg-primary text-white px-4 py-2 rounded-full text-xs font-semibold hover:opacity-90 active:scale-95 transition-all shadow-md flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5 text-white shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"></path>
+                    </svg> Logout
                 </button>
-                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=120&h=120" alt="User Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-primary/20">
             </div>
         </nav>
     </header>

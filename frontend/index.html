@@ -610,16 +610,38 @@
                 selectionState.classList.remove('hidden');
             });
 
-            mgtVerifyBtn.addEventListener('click', () => {
-                const userId = mgtUseridInput.value;
+            mgtVerifyBtn.addEventListener('click', async () => {
+                const userId = mgtUseridInput.value.trim();
                 const password = mgtPasswordInput.value;
-                
-                if (userId === "12345" && password === "67890") {
-                    mgtError.classList.add('hidden');
-                    closeTypeModal();
-                    window.location.href = "attendance.html";
-                } else {
+
+                mgtError.classList.add('hidden');
+                mgtError.textContent = '';
+                mgtVerifyBtn.disabled = true;
+                mgtVerifyBtn.opacity = '0.7';
+
+                try {
+                    const res = await fetch('/api/admin/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: userId, password })
+                    });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        mgtError.classList.add('hidden');
+                        closeTypeModal();
+                        window.location.href = "management-dashboard.html";
+                    } else {
+                        mgtError.textContent = data.error || 'Invalid credentials.';
+                        mgtError.classList.remove('hidden');
+                    }
+                } catch (err) {
+                    console.error('Login error:', err);
+                    mgtError.textContent = 'Server communication error. Please try again.';
                     mgtError.classList.remove('hidden');
+                } finally {
+                    mgtVerifyBtn.disabled = false;
+                    mgtVerifyBtn.opacity = '1';
                 }
             });
         });
