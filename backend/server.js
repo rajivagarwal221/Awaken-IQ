@@ -146,7 +146,16 @@ const upload = multer({
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(cookieParser(process.env.COOKIE_SECRET || 'awaken-iq-secret-key'));
+// Signs the userEmail / adminSessionToken cookies. Must be a private random value:
+// anyone who knows it can forge a signed cookie and log in as any user.
+const COOKIE_SECRET = process.env.COOKIE_SECRET || process.env.SESSION_SECRET;
+if (!COOKIE_SECRET) {
+    if (process.env.NODE_ENV === 'production' || process.env.VERCEL) {
+        throw new Error('COOKIE_SECRET (or SESSION_SECRET) must be set in production.');
+    }
+    console.warn('[security] COOKIE_SECRET not set; using a random per-process secret (dev only).');
+}
+app.use(cookieParser(COOKIE_SECRET || crypto.randomBytes(48).toString('base64url')));
 app.use(express.urlencoded({ extended: true }));
 
 // ----------------------------------------------------------------------------
