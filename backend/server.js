@@ -146,7 +146,22 @@ const upload = multer({
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(cookieParser(process.env.COOKIE_SECRET || '***REMOVED***'));
+// Signs the userEmail / adminSessionToken cookies. Must be a private random value:
+// anyone who knows it can forge a signed cookie and log in as any user.
+// Prefer an explicit COOKIE_SECRET. If it is not set, derive a stable private value
+// from DATABASE_URL (always set, never public) so production keeps working.
+const COOKIE_SECRET =
+    process.env.COOKIE_SECRET ||
+    process.env.SESSION_SECRET ||
+    (process.env.DATABASE_URL &&
+        crypto.createHash('sha256').update('awaken-iq-cookie:' + process.env.DATABASE_URL).digest('base64url'));
+if (!process.env.COOKIE_SECRET) {
+    console.warn('[security] COOKIE_SECRET is not set; set it to a random 32+ byte string.');
+}
+if (!COOKIE_SECRET) {
+    throw new Error('Set COOKIE_SECRET (or DATABASE_URL) before starting the server.');
+}
+app.use(cookieParser(COOKIE_SECRET));
 app.use(express.urlencoded({ extended: true }));
 
 // ----------------------------------------------------------------------------

@@ -20,3 +20,8 @@ Attendance Report 2.pdf
 logo (1).png
 scratch/
 scraped_site/
+
+# Raw media exports
+WhatsApp*
+*.mp4
+!frontend/assets/*.mp4
