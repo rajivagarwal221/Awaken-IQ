@@ -148,14 +148,20 @@ app.use(cors());
 app.use(express.json());
 // Signs the userEmail / adminSessionToken cookies. Must be a private random value:
 // anyone who knows it can forge a signed cookie and log in as any user.
-const COOKIE_SECRET = process.env.COOKIE_SECRET || process.env.SESSION_SECRET;
-if (!COOKIE_SECRET) {
-    if (process.env.NODE_ENV === 'production' || process.env.VERCEL) {
-        throw new Error('COOKIE_SECRET (or SESSION_SECRET) must be set in production.');
-    }
-    console.warn('[security] COOKIE_SECRET not set; using a random per-process secret (dev only).');
+// Prefer an explicit COOKIE_SECRET. If it is not set, derive a stable private value
+// from DATABASE_URL (always set, never public) so production keeps working.
+const COOKIE_SECRET =
+    process.env.COOKIE_SECRET ||
+    process.env.SESSION_SECRET ||
+    (process.env.DATABASE_URL &&
+        crypto.createHash('sha256').update('awaken-iq-cookie:' + process.env.DATABASE_URL).digest('base64url'));
+if (!process.env.COOKIE_SECRET) {
+    console.warn('[security] COOKIE_SECRET is not set; set it to a random 32+ byte string.');
 }
-app.use(cookieParser(COOKIE_SECRET || crypto.randomBytes(48).toString('base64url')));
+if (!COOKIE_SECRET) {
+    throw new Error('Set COOKIE_SECRET (or DATABASE_URL) before starting the server.');
+}
+app.use(cookieParser(COOKIE_SECRET));
 app.use(express.urlencoded({ extended: true }));
 
 // ----------------------------------------------------------------------------
